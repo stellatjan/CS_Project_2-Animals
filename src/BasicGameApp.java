@@ -22,10 +22,13 @@ public class BasicGameApp implements Runnable {
 	public JFrame frame;
 	public Canvas canvas;
 	public JPanel panel;
+	public Image background;
+
 
 	public BufferStrategy bufferStrategy;
 
-	private Animals zebra, snake, eagle, elephant, lion;
+	private Animals eagle, snake, zebra, elephant, lion, hippo;
+
 
 	public static void main(String[] args) {
 		BasicGameApp ex = new BasicGameApp();
@@ -34,12 +37,14 @@ public class BasicGameApp implements Runnable {
 
 	public BasicGameApp() {
 		setUpGraphics();
+		background = Toolkit.getDefaultToolkit().getImage("background.png");
+		eagle = new Animals(10, 100, "eagle.png");
+		lion = new Animals(100, 500, "lion.png");
+		snake = new Animals(400, 500, "snake.png");
+		zebra = new Animals(550, 500, "zebra.png");
+		elephant = new Animals(250, 500, "elephant.png");
+		hippo = new Animals(-50, 500, "hippo.png");
 
-		zebra = new Animals(10, 100, "zebra.png");
-		snake = new Animals(100, 100, "snake.png");
-		eagle = new Animals(200, 100, "eagle.png");
-		elephant = new Animals(300, 100, "elephant.png");
-		lion = new Animals(400, 100, "lion.png");
 	}
 
 	public void run() {
@@ -51,12 +56,46 @@ public class BasicGameApp implements Runnable {
 	}
 
 	public void moveThings() {
+		// Only move animals, not the background
+		lion.move();
 		zebra.move();
 		snake.move();
 		eagle.move();
 		elephant.move();
-		lion.move();
+		hippo.move();
+		hippo.bounce();
+		snake.wrap();
+
 	}
+	public void collisions(){
+		System.out.println(hippo.isCrashing);
+		if(hippo.rec.intersects(snake.rec) && hippo.isCrashing==false && hippo.isAlive && snake.isAlive){
+			System.out.println("explosion!");
+			hippo.dx = -hippo.dx;
+			hippo.dy = -hippo.dy;
+			snake.dx = -snake.dx;
+			snake.dy = -snake.dy;
+
+			// make hippo get bigger
+			hippo.width = hippo.width + 50;
+			hippo.height = hippo.height + 50;
+
+			// make snake faster
+			snake.dx = snake.dx + 20;
+			snake.dy = snake.dy + 20;
+
+			hippo.isCrashing=true;
+		}
+
+		if(!hippo.rec.intersects(snake.rec)){
+			//System.out.println("noCrash");
+			hippo.isCrashing=false;
+			hippo.isAlive=false;
+
+
+		}
+	}
+
 
 	public void pause(int time) {
 		try {
@@ -88,13 +127,20 @@ public class BasicGameApp implements Runnable {
 		Graphics2D g = (Graphics2D) bufferStrategy.getDrawGraphics();
 		g.clearRect(0, 0, WIDTH, HEIGHT);
 
+		// Draw the background image first (it stays still)
+		g.drawImage(background, 0, -5, 1500, 900, null);
+
+		// Draw the animals on top of the background
+		g.drawImage(hippo.getImage(), hippo.xpos, hippo.ypos, hippo.width, hippo.height, null);
+		g.drawImage(lion.getImage(), lion.xpos, lion.ypos, lion.width, lion.height, null);
 		g.drawImage(zebra.getImage(), zebra.xpos, zebra.ypos, zebra.width, zebra.height, null);
 		g.drawImage(snake.getImage(), snake.xpos, snake.ypos, snake.width, snake.height, null);
 		g.drawImage(eagle.getImage(), eagle.xpos, eagle.ypos, eagle.width, eagle.height, null);
 		g.drawImage(elephant.getImage(), elephant.xpos, elephant.ypos, elephant.width, elephant.height, null);
-		g.drawImage(lion.getImage(), lion.xpos, lion.ypos, lion.width, lion.height, null);
+
 
 		g.dispose();
 		bufferStrategy.show();
+
 	}
 }
