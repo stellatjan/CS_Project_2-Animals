@@ -1,16 +1,16 @@
 import java.awt.*;
 
-public class Animals {
+public class Discrepancies {
     int xpos, ypos;
     int width = 150, height = 140;  // Standard width and height for the images
     int dx = 5, dy = 5;  // Default movement in x and y directions
-   public Image image;
+    public Image image;
     Rectangle rec;
     boolean isAlive = true;  // Default alive status
     boolean isCrashing = false;
 
     // Constructor for creating an animal with specific position and image
-    public Animals(int x, int y, String img) {
+    public Discrepancies(int x, int y, String img) {
         xpos = x;
         ypos = y;
         image = Toolkit.getDefaultToolkit().getImage(img); // Load the image
@@ -50,8 +50,5 @@ public class Animals {
         xpos += 5;  // Move right
         if (xpos > 1000) xpos = 0;  // Reset the position if it goes off the screen
     }
-    // Get the image of the animal
-//    public Image getImage() {
-//        return image;
-//    }
+
 }
