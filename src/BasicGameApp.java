@@ -23,6 +23,8 @@ public class BasicGameApp implements Runnable {
 	public Canvas canvas;
 	public JPanel panel;
 	public Image background;
+	public Image newbackground;
+	private boolean winScreen = false;
 
 
 	public BufferStrategy bufferStrategy;
@@ -31,6 +33,7 @@ public class BasicGameApp implements Runnable {
 	private Discrepancies albinozebra, closeenoughtojustzebrastripes, eaglenowings, elephantnotrunknotail, hipponotooth, justeaglewings, justelephanttrunkandtail, justhippotooth, justlionmane, justsnaketounge, lionnomane, snakenotoungeandfrown;
 	private Sun burningsun;
 	private tombstone tombstone;
+	private grass grass;
 
 	public static void main(String[] args) {
 		BasicGameApp ex = new BasicGameApp();
@@ -41,8 +44,10 @@ public class BasicGameApp implements Runnable {
 		setUpGraphics();
 
 		background = Toolkit.getDefaultToolkit().getImage("background.png");
+		newbackground = Toolkit.getDefaultToolkit().getImage("newbackground.png");
 		burningsun = new Sun(200, 22, "burningsun.png");
 		tombstone = new tombstone(50, 500, "tombstone.png");
+		grass = new grass(50, 500, "grass.png");
 		eagle = new Animals(10, 100, "eagle.png");
 		lion = new Animals(100, 500, "lion.png");
 		snake = new Animals(400, 500, "snake.png");
@@ -50,18 +55,18 @@ public class BasicGameApp implements Runnable {
 		elephant = new Animals(250, 500, "elephant.png");
 		hippo = new Animals(-50, 500, "hippo.png");
 
-		albinozebra = new Discrepancies(100, 100, "albinozebra.png");
-		closeenoughtojustzebrastripes = new Discrepancies(500, 500, "closeenoughtojustzebrastripes.png"); //no work??
-		eaglenowings = new Discrepancies(100, 200, "eaglenowings.png");
-		elephantnotrunknotail = new Discrepancies(100, 300, "elephantnotrunknotail.png");
-		hipponotooth = new Discrepancies(100, 400, "hipponotooth.png");
-		justeaglewings = new Discrepancies(100, 400, "justeaglewings.png");
-		justelephanttrunkandtail = new Discrepancies(100, 400, "justelephanttrunkandtail.png");
-		justhippotooth = new Discrepancies(100, 400, "justhippotooth.png");
-		justlionmane = new Discrepancies(100, 400, "justlionmane.png");
-		justsnaketounge = new Discrepancies(100, 400, "justsnaketounge.png");
-		lionnomane = new Discrepancies(100, 400, "lionnomane.png");
-		snakenotoungeandfrown = new Discrepancies(100, 400, "snakenotoungeandfrown.png");
+		albinozebra = new Discrepancies(200, 50, "albinozebra.png");
+		closeenoughtojustzebrastripes = new Discrepancies(200, 50, "closeenoughtojustzebrastripes.png"); //no work??
+		eaglenowings = new Discrepancies(200, 50, "eaglenowings.png");
+		elephantnotrunknotail = new Discrepancies(200, 50, "elephantnotrunknotail.png");
+		hipponotooth = new Discrepancies(200, 50, "hipponotooth.png");
+		justeaglewings = new Discrepancies(200, 50, "justeaglewings.png");
+		justelephanttrunkandtail = new Discrepancies(200, 50, "justelephanttrunkandtail.png");
+		justhippotooth = new Discrepancies(200, 50, "justhippotooth.png");
+		justlionmane = new Discrepancies(200, 50, "justlionmane.png");
+		justsnaketounge = new Discrepancies(200, 50, "justsnaketounge.png");
+		lionnomane = new Discrepancies(200, 50, "lionnomane.png");
+		snakenotoungeandfrown = new Discrepancies(200, 50, "snakenotoungeandfrown.png");
 
 		albinozebra.isAlive = false;
 		closeenoughtojustzebrastripes.isAlive = false;
@@ -106,8 +111,6 @@ public class BasicGameApp implements Runnable {
 		if (hippo.rec.intersects(burningsun.rec) && hippo.isAlive) {
 			System.out.println("Hippo collided with the sun!");
 			hippo.isAlive = false;  // Set hippo as "dead"
-
-
 		}
 
 		if (lion.rec.intersects(burningsun.rec) && lion.isAlive) {
@@ -134,6 +137,20 @@ public class BasicGameApp implements Runnable {
 			System.out.println("Elephant collided with the sun!");
 			elephant.isAlive = false;  // Set elephant as "dead"
 		}
+
+		// Check if all animals intersect with the grass.
+		if (!winScreen) {
+			boolean allAnimalsIntersectGrass = hippo.rec.intersects(grass.rec) &&
+					lion.rec.intersects(grass.rec) &&
+					zebra.rec.intersects(grass.rec) &&
+					snake.rec.intersects(grass.rec) &&
+					eagle.rec.intersects(grass.rec) &&
+					elephant.rec.intersects(grass.rec);
+			if (allAnimalsIntersectGrass) {
+				System.out.println("All animals are on the grass! Changing background...");
+				winScreen = true;
+			}
+		}
 	}
 
 
@@ -142,7 +159,88 @@ public class BasicGameApp implements Runnable {
 			Thread.sleep(time);
 		} catch (InterruptedException e) {
 		}
+	} //rather then having the rectangles follow them around, in order to implement the 'win screen' i set them as fixed values besides the zebra so they can all intercent the grass rectangle slightly differntly so i can use a one set if statment if they are all intercecting grass change the screen
+
+	public void update() {
+		int grassY = 570;  // The Y position where the grass starts
+
+		// Hippo
+		if (!hippo.isAlive) {
+			if (hipponotooth.ypos >= grassY) {
+				hippo.isAlive = false;
+			} else {
+				hipponotooth.ypos += 5;
+				justhippotooth.ypos -= 30;
+				justhippotooth.xpos -= 25;
+			}
+			hipponotooth.rec = new Rectangle(175, 570, 20, 20);
+		}
+
+		// Zebra
+		if (!zebra.isAlive) {
+			if (albinozebra.ypos >= grassY) {
+				zebra.isAlive = false;
+			} else {
+				albinozebra.ypos += 5;
+				closeenoughtojustzebrastripes.ypos -= 30;
+				closeenoughtojustzebrastripes.xpos -= 25;
+			}
+			albinozebra.rec = new Rectangle(350, 570, 20, 50);
+		}
+
+		// Snake
+		if (!snake.isAlive) {
+			if (snakenotoungeandfrown.ypos >= grassY) {
+				snake.isAlive = false;
+			} else {
+				snakenotoungeandfrown.ypos += 5;
+				justsnaketounge.ypos -= 30;
+				justsnaketounge.xpos -= 25;
+			}
+			snakenotoungeandfrown.rec = new Rectangle(205, 570, 20, 50);
+		}
+
+		// Eagle
+		if (!eagle.isAlive) {
+			if (eaglenowings.ypos >= grassY) {
+				eagle.isAlive = false;
+			} else {
+				eaglenowings.ypos += 5;
+				justeaglewings.ypos -= 30;
+				justeaglewings.xpos -= 25;
+			}
+			eaglenowings.rec = new Rectangle(300, 570, 20, 50);
+		}
+
+		// Elephant
+		if (!elephant.isAlive) {
+			if (elephantnotrunknotail.ypos >= grassY) {
+				elephant.isAlive = false;
+			} else {
+				elephantnotrunknotail.ypos += 5;
+				justelephanttrunkandtail.ypos -= 30;
+				justelephanttrunkandtail.xpos -= 25;
+			}
+			elephantnotrunknotail.rec = new Rectangle(elephantnotrunknotail.xpos, elephantnotrunknotail.ypos, 3, 50);
+		}
+
+		// Lion
+		if (!lion.isAlive) {
+			if (lionnomane.ypos >= grassY) {
+				lion.isAlive = false;
+			} else {
+				lionnomane.ypos += 5;
+				justlionmane.ypos -= 30;
+				justlionmane.xpos -= 25;
+			}
+			lionnomane.rec = new Rectangle(400, 570, 20, 50);
+		}
 	}
+
+//		public void changeBackground() {
+//			background = Toolkit.getDefaultToolkit().getImage("newbackground.png");
+//		}
+
 
 	private void setUpGraphics() {
 		frame = new JFrame("Animal Game");
@@ -167,40 +265,75 @@ public class BasicGameApp implements Runnable {
 		Graphics2D g = (Graphics2D) bufferStrategy.getDrawGraphics();
 		g.clearRect(0, 0, WIDTH, HEIGHT);
 
+		//is it not workiung bc all the rectangles are effectivlly on top of eachother so they are not all intercecting????
+
 		g.drawImage(background, 0, -5, 1500, 900, null);
 		g.drawImage(burningsun.image, burningsun.xpos, burningsun.ypos, burningsun.width, burningsun.height, null);
-//		g.drawRect(burningsun.rec.x, burningsun.rec.y, burningsun.rec.width, burningsun.rec.height);
-//		g.drawRect(hippo.rec.x, hippo.rec.y, hippo.rec.width, hippo.rec.height);
+		g.drawImage(grass.image, 0, 570, 1500, grass.height, null);
+		g.drawRect(grass.rec.x, grass.rec.y, grass.rec.width, grass.rec.height);
+		g.drawRect(elephantnotrunknotail.rec.x, elephantnotrunknotail.rec.y, elephantnotrunknotail.rec.width, elephantnotrunknotail.height);
+		g.drawRect(snakenotoungeandfrown.rec.x, snakenotoungeandfrown.rec.y, snakenotoungeandfrown.rec.width, snakenotoungeandfrown.height);
+		g.drawRect(lionnomane.rec.x, lionnomane.rec.y, lionnomane.rec.width, lionnomane.height);
+		g.drawRect(hipponotooth.rec.x, hipponotooth.rec.y, hipponotooth.rec.width, hipponotooth.height);
+		g.drawRect(eaglenowings.rec.x, eaglenowings.rec.y, eaglenowings.rec.width, eaglenowings.height);
+		g.drawRect(albinozebra.rec.x, albinozebra.rec.y, albinozebra.rec.width, albinozebra.height);
 
-		g.drawImage(tombstone.image, tombstone.xpos, tombstone.ypos, tombstone.width, tombstone.height, null);
-// Check if all regular animals are dead
 
-		if (!hippo.isAlive && !lion.isAlive && !zebra.isAlive && !snake.isAlive && !eagle.isAlive && !elephant.isAlive) {
-			g.drawImage(albinozebra.image, albinozebra.xpos, albinozebra.ypos, albinozebra.width, albinozebra.height, null);
-			g.drawImage(closeenoughtojustzebrastripes.image, closeenoughtojustzebrastripes.xpos, closeenoughtojustzebrastripes.ypos, closeenoughtojustzebrastripes.width, closeenoughtojustzebrastripes.height, null);
-			g.drawImage(eaglenowings.image, eaglenowings.xpos, eaglenowings.ypos, eaglenowings.width, eaglenowings.height, null);
-			g.drawImage(elephantnotrunknotail.image, elephantnotrunknotail.xpos, elephantnotrunknotail.ypos, elephantnotrunknotail.width, elephantnotrunknotail.height, null);
-			g.drawImage(hipponotooth.image, hipponotooth.xpos, hipponotooth.ypos, hipponotooth.width, hipponotooth.height, null);
-			g.drawImage(justeaglewings.image, justeaglewings.xpos, justeaglewings.ypos, justeaglewings.width, justeaglewings.height, null);
-			g.drawImage(justelephanttrunkandtail.image, justelephanttrunkandtail.xpos, justelephanttrunkandtail.ypos, justelephanttrunkandtail.width, justelephanttrunkandtail.height, null);
-			g.drawImage(justhippotooth.image, justhippotooth.xpos, justhippotooth.ypos, justhippotooth.width, justhippotooth.height, null);
-			g.drawImage(justlionmane.image, justlionmane.xpos, justlionmane.ypos, justlionmane.width, justlionmane.height, null);
-			g.drawImage(justsnaketounge.image, justsnaketounge.xpos, justsnaketounge.ypos, justsnaketounge.width, justsnaketounge.height, null);
-			g.drawImage(lionnomane.image, lionnomane.xpos, lionnomane.ypos, lionnomane.width, lionnomane.height, null);
-			g.drawImage(snakenotoungeandfrown.image, snakenotoungeandfrown.xpos, snakenotoungeandfrown.ypos, snakenotoungeandfrown.width, snakenotoungeandfrown.height, null);
+		if (background != newbackground) { // Only draw elements if new background is NOT active
+			g.drawImage(burningsun.image, burningsun.xpos, burningsun.ypos, burningsun.width, burningsun.height, null);
+			g.drawImage(grass.image, 0, 570, 1500, grass.height, null);
+
+			// Call the update() method once per frame, before drawing the animals
+			update();
+
+
+			if (!zebra.isAlive) {
+				g.drawImage(albinozebra.image, albinozebra.xpos, albinozebra.ypos, albinozebra.width, albinozebra.height, null);
+				g.drawImage(closeenoughtojustzebrastripes.image, closeenoughtojustzebrastripes.xpos, closeenoughtojustzebrastripes.ypos, closeenoughtojustzebrastripes.width, closeenoughtojustzebrastripes.height, null);
+			}
+
+			if (!eagle.isAlive) {
+				g.drawImage(eaglenowings.image, eaglenowings.xpos, eaglenowings.ypos, eaglenowings.width, eaglenowings.height, null);
+				g.drawImage(justeaglewings.image, justeaglewings.xpos, justeaglewings.ypos, justeaglewings.width, justeaglewings.height, null);
+
+			}
+
+			if (!elephant.isAlive) {
+				g.drawImage(elephantnotrunknotail.image, elephantnotrunknotail.xpos, elephantnotrunknotail.ypos, elephantnotrunknotail.width, elephantnotrunknotail.height, null);
+				g.drawImage(justelephanttrunkandtail.image, justelephanttrunkandtail.xpos, justelephanttrunkandtail.ypos, justelephanttrunkandtail.width, justelephanttrunkandtail.height, null);
+			}
+
+			if (!hippo.isAlive) {
+				g.drawImage(hipponotooth.image, hipponotooth.xpos, hipponotooth.ypos, hipponotooth.width, hipponotooth.height, null);
+				g.drawImage(justhippotooth.image, justhippotooth.xpos, justhippotooth.ypos, justhippotooth.width, justhippotooth.height, null);
+			}
+
+			if (!lion.isAlive) {
+				g.drawImage(lionnomane.image, lionnomane.xpos, lionnomane.ypos, lionnomane.width, lionnomane.height, null);
+				g.drawImage(justlionmane.image, justlionmane.xpos, justlionmane.ypos, justlionmane.width, justlionmane.height, null);
+				justlionmane.ypos = 2;
+			}
+
+			if (!snake.isAlive) {
+				g.drawImage(snakenotoungeandfrown.image, snakenotoungeandfrown.xpos, snakenotoungeandfrown.ypos, snakenotoungeandfrown.width, snakenotoungeandfrown.height, null);
+				g.drawImage(justsnaketounge.image, justsnaketounge.xpos, justsnaketounge.ypos, justsnaketounge.width, justsnaketounge.height, null);
+			}
+
+			// Draw the animals only if they are alive
+			if (hippo.isAlive) g.drawImage(hippo.image, hippo.xpos, hippo.ypos, hippo.width, hippo.height, null);
+			if (lion.isAlive) g.drawImage(lion.image, lion.xpos, lion.ypos, lion.width, lion.height, null);
+			if (zebra.isAlive) g.drawImage(zebra.image, zebra.xpos, zebra.ypos, zebra.width, zebra.height, null);
+			if (snake.isAlive) g.drawImage(snake.image, snake.xpos, snake.ypos, snake.width, snake.height, null);
+			if (eagle.isAlive) g.drawImage(eagle.image, eagle.xpos, eagle.ypos, eagle.width, eagle.height, null);
+			if (elephant.isAlive)
+				g.drawImage(elephant.image, elephant.xpos, elephant.ypos, elephant.width, elephant.height, null);
+
+
+			g.dispose();
+			bufferStrategy.show();
+
 		}
 
-		// Draw the animals only if they are alive
-		if (hippo.isAlive) g.drawImage(hippo.image, hippo.xpos, hippo.ypos, hippo.width, hippo.height, null);
-		if (lion.isAlive) g.drawImage(lion.image, lion.xpos, lion.ypos, lion.width, lion.height, null);
-		if (zebra.isAlive) g.drawImage(zebra.image, zebra.xpos, zebra.ypos, zebra.width, zebra.height, null);
-		if (snake.isAlive) g.drawImage(snake.image, snake.xpos, snake.ypos, snake.width, snake.height, null);
-		if (eagle.isAlive) g.drawImage(eagle.image, eagle.xpos, eagle.ypos, eagle.width, eagle.height, null);
-		if (elephant.isAlive) g.drawImage(elephant.image, elephant.xpos, elephant.ypos, elephant.width, elephant.height, null);
-
-
-
-		g.dispose();
-		bufferStrategy.show();
 	}
+
 }
