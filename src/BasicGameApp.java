@@ -140,7 +140,8 @@ public class BasicGameApp implements Runnable {
 
 		// Check if all animals intersect with the grass.
 		if (!winScreen) {
-			boolean allAnimalsIntersectGrass = hippo.rec.intersects(grass.rec) &&
+			boolean allAnimalsIntersectGrass =
+					hippo.rec.intersects(grass.rec) &&
 					lion.rec.intersects(grass.rec) &&
 					zebra.rec.intersects(grass.rec) &&
 					snake.rec.intersects(grass.rec) &&
@@ -325,8 +326,7 @@ public class BasicGameApp implements Runnable {
 			if (zebra.isAlive) g.drawImage(zebra.image, zebra.xpos, zebra.ypos, zebra.width, zebra.height, null);
 			if (snake.isAlive) g.drawImage(snake.image, snake.xpos, snake.ypos, snake.width, snake.height, null);
 			if (eagle.isAlive) g.drawImage(eagle.image, eagle.xpos, eagle.ypos, eagle.width, eagle.height, null);
-			if (elephant.isAlive)
-				g.drawImage(elephant.image, elephant.xpos, elephant.ypos, elephant.width, elephant.height, null);
+			if (elephant.isAlive) g.drawImage(elephant.image, elephant.xpos, elephant.ypos, elephant.width, elephant.height, null);
 
 
 			g.dispose();
