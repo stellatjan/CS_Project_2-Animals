@@ -96,18 +96,18 @@ public class BasicGameApp implements Runnable {
 
 	public void moveThings() {
 		// Only move animals, not the background
-		lion.bounce();
-		zebra.goofy();
-		eagle.wrap();
-		elephant.bounce();
-		hippo.goofy();
-		snake.wrap();
+		lion.bounce(); //lion moves by bounce method
+		zebra.goofy(); //zerba moves by goofy method (modified bounce method)
+		eagle.wrap(); //eagle moves by wrap method
+		elephant.bounce(); //elephant moves by bounce method
+		hippo.goofy(); //hippo moves by goofy method (modified bounce method)
+		snake.wrap(); //snake moves by wrap method
 
 
 	}
 
 	public void collisions() {
-		// Check if any of the animals intersect with the burning sun
+		// Check if any of the animals intersect with the burning sun, if so, replace with discrepincy animal, have the missing body part fly off, and let the discrepincy animal float down to intercect with grass.rec
 		if (hippo.rec.intersects(burningsun.rec) && hippo.isAlive) {
 			System.out.println("Hippo collided with the sun!");
 			hippo.isAlive = false;  // Set hippo as "dead"
@@ -150,6 +150,7 @@ public class BasicGameApp implements Runnable {
 			if (allAnimalsIntersectGrass) {
 				System.out.println("All animals are on the grass! Changing background...");
 				winScreen = true;
+				changeBackground();   //here im trying two different ways bc its still not working and driving me a bit insane
 			}
 		}
 	}
@@ -238,9 +239,9 @@ public class BasicGameApp implements Runnable {
 		}
 	}
 
-//		public void changeBackground() {
-//			background = Toolkit.getDefaultToolkit().getImage("newbackground.png");
-//		}
+		public void changeBackground() {
+			background = Toolkit.getDefaultToolkit().getImage("newbackground.png");
+		}
 
 
 	private void setUpGraphics() {
@@ -266,8 +267,6 @@ public class BasicGameApp implements Runnable {
 		Graphics2D g = (Graphics2D) bufferStrategy.getDrawGraphics();
 		g.clearRect(0, 0, WIDTH, HEIGHT);
 
-		//is it not workiung bc all the rectangles are effectivlly on top of eachother so they are not all intercecting????
-
 		g.drawImage(background, 0, -5, 1500, 900, null);
 		g.drawImage(burningsun.image, burningsun.xpos, burningsun.ypos, burningsun.width, burningsun.height, null);
 		g.drawImage(grass.image, 0, 570, 1500, grass.height, null);
@@ -280,11 +279,10 @@ public class BasicGameApp implements Runnable {
 		g.drawRect(albinozebra.rec.x, albinozebra.rec.y, albinozebra.rec.width, albinozebra.height);
 
 
-		if (background != newbackground) { // Only draw elements if new background is NOT active
-			g.drawImage(burningsun.image, burningsun.xpos, burningsun.ypos, burningsun.width, burningsun.height, null);
-			g.drawImage(grass.image, 0, 570, 1500, grass.height, null);
+		//if (background!= newbackground) { // Only draw elements if new background is NOT active
+			//g.drawImage(burningsun.image, burningsun.xpos, burningsun.ypos, burningsun.width, burningsun.height, null);
+			//g.drawImage(grass.image, 0, 570, 1500, grass.height, null); }
 
-			// Call the update() method once per frame, before drawing the animals
 			update();
 
 
@@ -336,4 +334,3 @@ public class BasicGameApp implements Runnable {
 
 	}
 
-}
