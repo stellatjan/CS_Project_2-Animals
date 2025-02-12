@@ -34,6 +34,8 @@ public class BasicGameApp implements Runnable {
 	private Sun burningsun;
 	private tombstone tombstone;
 	private grass grass;
+	boolean allAnimalsIntersectGrass = false;
+
 
 	public static void main(String[] args) {
 		BasicGameApp ex = new BasicGameApp();
@@ -140,16 +142,24 @@ public class BasicGameApp implements Runnable {
 
 		// Check if all animals intersect with the grass.
 		if (!winScreen) {
-			boolean allAnimalsIntersectGrass =
-					hippo.rec.intersects(grass.rec) &&
-					lion.rec.intersects(grass.rec) &&
-					zebra.rec.intersects(grass.rec) &&
-					snake.rec.intersects(grass.rec) &&
-					eagle.rec.intersects(grass.rec) &&
-					elephant.rec.intersects(grass.rec);
+			 allAnimalsIntersectGrass =
+					hipponotooth.rec.intersects(grass.rec) &&
+					lionnomane.rec.intersects(grass.rec) &&
+					albinozebra.rec.intersects(grass.rec) &&
+					snakenotoungeandfrown.rec.intersects(grass.rec) &&
+					eaglenowings.rec.intersects(grass.rec) &&
+					elephantnotrunknotail.rec.intersects(grass.rec);
+
+			System.out.println("hippo intersect:" + hipponotooth.rec.intersects(grass.rec) );
+			System.out.println("lion intersect:" + lionnomane.rec.intersects(grass.rec));
+			System.out.println("zebra intersect:" + albinozebra.rec.intersects(grass.rec));
+			System.out.println("snake intersect:" + snakenotoungeandfrown.rec.intersects(grass.rec));
+			System.out.println("eagle intersect:" + eaglenowings.rec.intersects(grass.rec)) ;
+			System.out.println("elephant intersect: " +elephantnotrunknotail.rec.intersects(grass.rec));
+
 			if (allAnimalsIntersectGrass) {
 				System.out.println("All animals are on the grass! Changing background...");
-				winScreen = true;
+				//winScreen = true;
 				changeBackground();   //here im trying two different ways bc its still not working and driving me a bit insane
 			}
 		}
@@ -175,7 +185,7 @@ public class BasicGameApp implements Runnable {
 				justhippotooth.ypos -= 30;
 				justhippotooth.xpos -= 25;
 			}
-			hipponotooth.rec = new Rectangle(175, 570, 20, 20);
+			hipponotooth.rec = new Rectangle(hipponotooth.xpos,hipponotooth.ypos, hipponotooth.width, hipponotooth.height);
 		}
 
 		// Zebra
@@ -187,7 +197,8 @@ public class BasicGameApp implements Runnable {
 				closeenoughtojustzebrastripes.ypos -= 30;
 				closeenoughtojustzebrastripes.xpos -= 25;
 			}
-			albinozebra.rec = new Rectangle(350, 570, 20, 50);
+			albinozebra.rec = new Rectangle(albinozebra.xpos, albinozebra.ypos, albinozebra.width, albinozebra.height);
+
 		}
 
 		// Snake
@@ -199,7 +210,7 @@ public class BasicGameApp implements Runnable {
 				justsnaketounge.ypos -= 30;
 				justsnaketounge.xpos -= 25;
 			}
-			snakenotoungeandfrown.rec = new Rectangle(205, 570, 20, 50);
+			snakenotoungeandfrown.rec = new Rectangle(snakenotoungeandfrown.xpos, snakenotoungeandfrown.ypos, snakenotoungeandfrown.width, snakenotoungeandfrown.height);
 		}
 
 		// Eagle
@@ -211,7 +222,7 @@ public class BasicGameApp implements Runnable {
 				justeaglewings.ypos -= 30;
 				justeaglewings.xpos -= 25;
 			}
-			eaglenowings.rec = new Rectangle(300, 570, 20, 50);
+			eaglenowings.rec = new Rectangle(eaglenowings.xpos, eaglenowings.ypos, eaglenowings.width, eaglenowings.height);
 		}
 
 		// Elephant
@@ -223,7 +234,7 @@ public class BasicGameApp implements Runnable {
 				justelephanttrunkandtail.ypos -= 30;
 				justelephanttrunkandtail.xpos -= 25;
 			}
-			elephantnotrunknotail.rec = new Rectangle(elephantnotrunknotail.xpos, elephantnotrunknotail.ypos, 3, 50);
+			elephantnotrunknotail.rec = new Rectangle(elephantnotrunknotail.xpos, elephantnotrunknotail.ypos, elephantnotrunknotail.width, elephantnotrunknotail.height);
 		}
 
 		// Lion
@@ -235,12 +246,13 @@ public class BasicGameApp implements Runnable {
 				justlionmane.ypos -= 30;
 				justlionmane.xpos -= 25;
 			}
-			lionnomane.rec = new Rectangle(400, 570, 20, 50);
+			lionnomane.rec = new Rectangle(lionnomane.xpos, lionnomane.ypos, lionnomane.width, lionnomane.height);
 		}
 	}
 
 		public void changeBackground() {
 			background = Toolkit.getDefaultToolkit().getImage("newbackground.png");
+
 		}
 
 
@@ -271,12 +283,13 @@ public class BasicGameApp implements Runnable {
 		g.drawImage(burningsun.image, burningsun.xpos, burningsun.ypos, burningsun.width, burningsun.height, null);
 		g.drawImage(grass.image, 0, 570, 1500, grass.height, null);
 		g.drawRect(grass.rec.x, grass.rec.y, grass.rec.width, grass.rec.height);
-		g.drawRect(elephantnotrunknotail.rec.x, elephantnotrunknotail.rec.y, elephantnotrunknotail.rec.width, elephantnotrunknotail.height);
-		g.drawRect(snakenotoungeandfrown.rec.x, snakenotoungeandfrown.rec.y, snakenotoungeandfrown.rec.width, snakenotoungeandfrown.height);
-		g.drawRect(lionnomane.rec.x, lionnomane.rec.y, lionnomane.rec.width, lionnomane.height);
-		g.drawRect(hipponotooth.rec.x, hipponotooth.rec.y, hipponotooth.rec.width, hipponotooth.height);
-		g.drawRect(eaglenowings.rec.x, eaglenowings.rec.y, eaglenowings.rec.width, eaglenowings.height);
-		g.drawRect(albinozebra.rec.x, albinozebra.rec.y, albinozebra.rec.width, albinozebra.height);
+
+		g.drawRect(elephantnotrunknotail.rec.x, elephantnotrunknotail.rec.y, elephantnotrunknotail.rec.width, elephantnotrunknotail.rec.height);
+		g.drawRect(snakenotoungeandfrown.rec.x, snakenotoungeandfrown.rec.y, snakenotoungeandfrown.rec.width, snakenotoungeandfrown.rec.height);
+		g.drawRect(lionnomane.rec.x, lionnomane.rec.y, lionnomane.rec.width, lionnomane.rec.height);
+		g.drawRect(hipponotooth.rec.x, hipponotooth.rec.y, hipponotooth.rec.width, hipponotooth.rec.height);
+		g.drawRect(eaglenowings.rec.x, eaglenowings.rec.y, eaglenowings.rec.width, eaglenowings.rec.height);
+		g.drawRect(albinozebra.rec.x, albinozebra.rec.y, albinozebra.rec.width, albinozebra.rec.height);
 
 
 		//if (background!= newbackground) { // Only draw elements if new background is NOT active
