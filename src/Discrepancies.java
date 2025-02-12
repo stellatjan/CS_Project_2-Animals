@@ -8,7 +8,7 @@ public class Discrepancies {
     public Image image;
     Rectangle rec;
     boolean isAlive = true;  // Default alive status
-    boolean isCrashing = false;
+
 
     // Constructor for creating an animal with specific position and image
     public Discrepancies(int x, int y, String img) {

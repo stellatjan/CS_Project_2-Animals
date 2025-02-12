@@ -7,7 +7,7 @@ public class Animals {
    public Image image;
     Rectangle rec;
     boolean isAlive = true;  // Default alive status
-    boolean isCrashing = false;
+
 
 
 

@@ -19,11 +19,14 @@ public class BasicGameApp implements Runnable {
 	final int WIDTH = 1000;
 	final int HEIGHT = 700;
 
+
+
 	public JFrame frame;
 	public Canvas canvas;
 	public JPanel panel;
 	public Image background;
 	public Image newbackground;
+
 	private boolean winScreen = false;
 
 
@@ -32,7 +35,6 @@ public class BasicGameApp implements Runnable {
 	private Animals eagle, snake, zebra, elephant, lion, hippo;
 	private Discrepancies albinozebra, closeenoughtojustzebrastripes, eaglenowings, elephantnotrunknotail, hipponotooth, justeaglewings, justelephanttrunkandtail, justhippotooth, justlionmane, justsnaketounge, lionnomane, snakenotoungeandfrown;
 	private Sun burningsun;
-	private tombstone tombstone;
 	private grass grass;
 	boolean allAnimalsIntersectGrass = false;
 
@@ -43,12 +45,12 @@ public class BasicGameApp implements Runnable {
 	}
 
 	public BasicGameApp() {
-		setUpGraphics();
+		setUpGraphics();		//setting everything up
 
 		background = Toolkit.getDefaultToolkit().getImage("background.png");
 		newbackground = Toolkit.getDefaultToolkit().getImage("newbackground.png");
+
 		burningsun = new Sun(200, 22, "burningsun.png");
-		tombstone = new tombstone(50, 500, "tombstone.png");
 		grass = new grass(50, 500, "grass.png");
 		eagle = new Animals(10, 100, "eagle.png");
 		lion = new Animals(100, 500, "lion.png");
@@ -58,7 +60,7 @@ public class BasicGameApp implements Runnable {
 		hippo = new Animals(-50, 500, "hippo.png");
 
 		albinozebra = new Discrepancies(200, 50, "albinozebra.png");
-		closeenoughtojustzebrastripes = new Discrepancies(200, 50, "closeenoughtojustzebrastripes.png"); //no work??
+		closeenoughtojustzebrastripes = new Discrepancies(200, 50, "closeenoughtojustzebrastripes.png");
 		eaglenowings = new Discrepancies(200, 50, "eaglenowings.png");
 		elephantnotrunknotail = new Discrepancies(200, 50, "elephantnotrunknotail.png");
 		hipponotooth = new Discrepancies(200, 50, "hipponotooth.png");
@@ -142,25 +144,21 @@ public class BasicGameApp implements Runnable {
 
 		// Check if all animals intersect with the grass.
 		if (!winScreen) {
-			 allAnimalsIntersectGrass =
-					hipponotooth.rec.intersects(grass.rec) &&
-					lionnomane.rec.intersects(grass.rec) &&
-					albinozebra.rec.intersects(grass.rec) &&
-					snakenotoungeandfrown.rec.intersects(grass.rec) &&
-					eaglenowings.rec.intersects(grass.rec) &&
-					elephantnotrunknotail.rec.intersects(grass.rec);
+			allAnimalsIntersectGrass = hipponotooth.rec.intersects(grass.rec) && lionnomane.rec.intersects(grass.rec) && albinozebra.rec.intersects(grass.rec) && snakenotoungeandfrown.rec.intersects(grass.rec) && eaglenowings.rec.intersects(grass.rec) && elephantnotrunknotail.rec.intersects(grass.rec);
 
-			System.out.println("hippo intersect:" + hipponotooth.rec.intersects(grass.rec) );
+			System.out.println("hippo intersect:" + hipponotooth.rec.intersects(grass.rec));
 			System.out.println("lion intersect:" + lionnomane.rec.intersects(grass.rec));
 			System.out.println("zebra intersect:" + albinozebra.rec.intersects(grass.rec));
 			System.out.println("snake intersect:" + snakenotoungeandfrown.rec.intersects(grass.rec));
-			System.out.println("eagle intersect:" + eaglenowings.rec.intersects(grass.rec)) ;
-			System.out.println("elephant intersect: " +elephantnotrunknotail.rec.intersects(grass.rec));
+			System.out.println("eagle intersect:" + eaglenowings.rec.intersects(grass.rec));
+			System.out.println("elephant intersect: " + elephantnotrunknotail.rec.intersects(grass.rec));
 
 			if (allAnimalsIntersectGrass) {
 				System.out.println("All animals are on the grass! Changing background...");
-				//winScreen = true;
-				changeBackground();   //here im trying two different ways bc its still not working and driving me a bit insane
+				changeBackground();
+
+
+
 			}
 		}
 	}
@@ -171,9 +169,11 @@ public class BasicGameApp implements Runnable {
 			Thread.sleep(time);
 		} catch (InterruptedException e) {
 		}
-	} //rather then having the rectangles follow them around, in order to implement the 'win screen' i set them as fixed values besides the zebra so they can all intercent the grass rectangle slightly differntly so i can use a one set if statment if they are all intercecting grass change the screen
+	}
 
 	public void update() {
+
+		//update method helps change the animal to discrepincy, including updating the rectangle. Also flys the body parts off the screen and lets the discrepincy animal float down
 		int grassY = 570;  // The Y position where the grass starts
 
 		// Hippo
@@ -182,10 +182,10 @@ public class BasicGameApp implements Runnable {
 				hippo.isAlive = false;
 			} else {
 				hipponotooth.ypos += 5;
-				justhippotooth.ypos -= 30;
-				justhippotooth.xpos -= 25;
+				justhippotooth.ypos -= 10;
+				justhippotooth.xpos -= 5;
 			}
-			hipponotooth.rec = new Rectangle(hipponotooth.xpos,hipponotooth.ypos, hipponotooth.width, hipponotooth.height);
+			hipponotooth.rec = new Rectangle(hipponotooth.xpos, hipponotooth.ypos, hipponotooth.width, hipponotooth.height);
 		}
 
 		// Zebra
@@ -207,8 +207,8 @@ public class BasicGameApp implements Runnable {
 				snake.isAlive = false;
 			} else {
 				snakenotoungeandfrown.ypos += 5;
-				justsnaketounge.ypos -= 30;
-				justsnaketounge.xpos -= 25;
+				justsnaketounge.ypos -= 10;
+				justsnaketounge.xpos -= 5;
 			}
 			snakenotoungeandfrown.rec = new Rectangle(snakenotoungeandfrown.xpos, snakenotoungeandfrown.ypos, snakenotoungeandfrown.width, snakenotoungeandfrown.height);
 		}
@@ -219,8 +219,8 @@ public class BasicGameApp implements Runnable {
 				eagle.isAlive = false;
 			} else {
 				eaglenowings.ypos += 5;
-				justeaglewings.ypos -= 30;
-				justeaglewings.xpos -= 25;
+				justeaglewings.ypos -= 20;
+				justeaglewings.xpos -= 20;
 			}
 			eaglenowings.rec = new Rectangle(eaglenowings.xpos, eaglenowings.ypos, eaglenowings.width, eaglenowings.height);
 		}
@@ -231,8 +231,8 @@ public class BasicGameApp implements Runnable {
 				elephant.isAlive = false;
 			} else {
 				elephantnotrunknotail.ypos += 5;
-				justelephanttrunkandtail.ypos -= 30;
-				justelephanttrunkandtail.xpos -= 25;
+				justelephanttrunkandtail.ypos -= 20;
+				justelephanttrunkandtail.xpos -= 19;
 			}
 			elephantnotrunknotail.rec = new Rectangle(elephantnotrunknotail.xpos, elephantnotrunknotail.ypos, elephantnotrunknotail.width, elephantnotrunknotail.height);
 		}
@@ -243,17 +243,21 @@ public class BasicGameApp implements Runnable {
 				lion.isAlive = false;
 			} else {
 				lionnomane.ypos += 5;
-				justlionmane.ypos -= 30;
-				justlionmane.xpos -= 25;
+				justlionmane.ypos -= 50;
+				justlionmane.xpos -= 20;
 			}
 			lionnomane.rec = new Rectangle(lionnomane.xpos, lionnomane.ypos, lionnomane.width, lionnomane.height);
 		}
 	}
 
-		public void changeBackground() {
-			background = Toolkit.getDefaultToolkit().getImage("newbackground.png");
+	public void changeBackground() {
+		background = Toolkit.getDefaultToolkit().getImage("newbackground.png");
 
-		}
+
+
+
+
+	}
 
 
 	private void setUpGraphics() {
@@ -277,24 +281,13 @@ public class BasicGameApp implements Runnable {
 
 	private void render() {
 		Graphics2D g = (Graphics2D) bufferStrategy.getDrawGraphics();
-		g.clearRect(0, 0, WIDTH, HEIGHT);
-
-		g.drawImage(background, 0, -5, 1500, 900, null);
-		g.drawImage(burningsun.image, burningsun.xpos, burningsun.ypos, burningsun.width, burningsun.height, null);
-		g.drawImage(grass.image, 0, 570, 1500, grass.height, null);
-		g.drawRect(grass.rec.x, grass.rec.y, grass.rec.width, grass.rec.height);
-
-		g.drawRect(elephantnotrunknotail.rec.x, elephantnotrunknotail.rec.y, elephantnotrunknotail.rec.width, elephantnotrunknotail.rec.height);
-		g.drawRect(snakenotoungeandfrown.rec.x, snakenotoungeandfrown.rec.y, snakenotoungeandfrown.rec.width, snakenotoungeandfrown.rec.height);
-		g.drawRect(lionnomane.rec.x, lionnomane.rec.y, lionnomane.rec.width, lionnomane.rec.height);
-		g.drawRect(hipponotooth.rec.x, hipponotooth.rec.y, hipponotooth.rec.width, hipponotooth.rec.height);
-		g.drawRect(eaglenowings.rec.x, eaglenowings.rec.y, eaglenowings.rec.width, eaglenowings.rec.height);
-		g.drawRect(albinozebra.rec.x, albinozebra.rec.y, albinozebra.rec.width, albinozebra.rec.height);
 
 
-		//if (background!= newbackground) { // Only draw elements if new background is NOT active
-			//g.drawImage(burningsun.image, burningsun.xpos, burningsun.ypos, burningsun.width, burningsun.height, null);
-			//g.drawImage(grass.image, 0, 570, 1500, grass.height, null); }
+			g.clearRect(0, 0, WIDTH, HEIGHT);
+			g.drawImage(newbackground, 0, -5, 1500, 900, null);
+			g.drawImage(background, 0, -5, 1500, 900, null);
+			g.drawImage(burningsun.image, burningsun.xpos, burningsun.ypos, burningsun.width, burningsun.height, null);
+			g.drawImage(grass.image, 0, 570, 1500, grass.height, null);
 
 			update();
 
@@ -337,7 +330,8 @@ public class BasicGameApp implements Runnable {
 			if (zebra.isAlive) g.drawImage(zebra.image, zebra.xpos, zebra.ypos, zebra.width, zebra.height, null);
 			if (snake.isAlive) g.drawImage(snake.image, snake.xpos, snake.ypos, snake.width, snake.height, null);
 			if (eagle.isAlive) g.drawImage(eagle.image, eagle.xpos, eagle.ypos, eagle.width, eagle.height, null);
-			if (elephant.isAlive) g.drawImage(elephant.image, elephant.xpos, elephant.ypos, elephant.width, elephant.height, null);
+			if (elephant.isAlive)
+				g.drawImage(elephant.image, elephant.xpos, elephant.ypos, elephant.width, elephant.height, null);
 
 
 			g.dispose();
@@ -346,4 +340,5 @@ public class BasicGameApp implements Runnable {
 		}
 
 	}
+
 

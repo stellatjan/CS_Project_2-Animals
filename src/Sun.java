@@ -6,8 +6,7 @@ public class Sun {
     int dx = 10, dy = 5;  // Default movement in x and y directions
     public Image image;
     Rectangle rec;
-    boolean isAlive = true;  // Default alive status
-    boolean isCrashing = false;
+
 
     // Constructor
     public Sun(int x, int y, String img) {
