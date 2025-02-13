@@ -147,7 +147,7 @@ public class BasicGameApp implements Runnable {
 		if (!winScreen) {
 			allAnimalsIntersectGrass = hipponotooth.rec.intersects(grass.rec) && lionnomane.rec.intersects(grass.rec) && albinozebra.rec.intersects(grass.rec) && snakenotoungeandfrown.rec.intersects(grass.rec) && eaglenowings.rec.intersects(grass.rec) && elephantnotrunknotail.rec.intersects(grass.rec);
 
-			System.out.println("hippo intersect:" + hipponotooth.rec.intersects(grass.rec));
+			System.out.println("hippo intersect:" + hipponotooth.rec.intersects(grass.rec));			//for checking purposes
 			System.out.println("lion intersect:" + lionnomane.rec.intersects(grass.rec));
 			System.out.println("zebra intersect:" + albinozebra.rec.intersects(grass.rec));
 			System.out.println("snake intersect:" + snakenotoungeandfrown.rec.intersects(grass.rec));
