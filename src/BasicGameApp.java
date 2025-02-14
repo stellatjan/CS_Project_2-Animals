@@ -290,9 +290,9 @@ public class BasicGameApp implements Runnable {
 			g.drawImage(burningsun.image, burningsun.xpos, burningsun.ypos, burningsun.width, burningsun.height, null);
 			g.drawImage(grass.image, 0, 570, 1500, grass.height, null);
 
-			update();
+			update(); //calling the update method
 
-
+//check if the animals are alive, and if they aernt replace with the discrepincy parts
 			if (!zebra.isAlive) {
 				g.drawImage(albinozebra.image, albinozebra.xpos, albinozebra.ypos, albinozebra.width, albinozebra.height, null);
 				g.drawImage(closeenoughtojustzebrastripes.image, closeenoughtojustzebrastripes.xpos, closeenoughtojustzebrastripes.ypos, closeenoughtojustzebrastripes.width, closeenoughtojustzebrastripes.height, null);
@@ -325,7 +325,7 @@ public class BasicGameApp implements Runnable {
 				g.drawImage(justsnaketounge.image, justsnaketounge.xpos, justsnaketounge.ypos, justsnaketounge.width, justsnaketounge.height, null);
 			}
 
-			// Draw the animals only if they are alive
+			// Draw the regular animals only if they are alive
 			if (hippo.isAlive) g.drawImage(hippo.image, hippo.xpos, hippo.ypos, hippo.width, hippo.height, null);
 			if (lion.isAlive) g.drawImage(lion.image, lion.xpos, lion.ypos, lion.width, lion.height, null);
 			if (zebra.isAlive) g.drawImage(zebra.image, zebra.xpos, zebra.ypos, zebra.width, zebra.height, null);
